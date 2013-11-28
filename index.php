@@ -13,7 +13,7 @@ require 'app/functions.php';
 
 /* ------------------------------------------------- */
 // Configure Idiorm
-	ORM::configure('mysql:host=localhost;dbname=eaplib'); //SET THIS
+	ORM::configure('mysql:host=localhost;dbname=appreq'); //SET THIS
 	ORM::configure('username', 'root'); //SET THIS
 	ORM::configure('password', ''); //SET THIS
 

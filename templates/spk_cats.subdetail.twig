@@ -1,0 +1,26 @@
+<table class="table table-bordered table-condensed tablesorter">
+	
+	{% set cols = getColumns('spk_cat') %}
+	{{ lists.theadsortable(cols, [ 'custom' ]) }}
+	<tbody>
+		{% for spk_cat in spk_cats if spk_cat.inherit_inactive == inactives %}
+		<tr {% if spk_cat.inactive %} class="inactive"{% endif %}>
+			<td>
+				<a href="{{ urlFor('spk_cat', {spk_cat: spk_cat.spk_cat_type_cd} )  }}">{{ spk_cat.spk_cat_type_cd }}</a>
+			</td>
+			<td>
+				{{ spk_cat.spk_cat_type_desc }}
+			</td>
+			<td>
+				{{ spk_cat.spk_cat_lvl_cd_ }}
+			</td>
+			<td>
+				{{ spk_cat.study_type_cd_ }}
+			</td>
+			<td>
+				{{ spk_cat.inactive ? 'N' : 'Y' }}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>

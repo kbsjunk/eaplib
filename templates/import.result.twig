@@ -1,0 +1,38 @@
+{% extends 'layout.twig' %}
+{% block page_title %}Import Confirmation{% endblock %}
+
+{% block footer_scripts %}
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#importresult').dataTable({
+		"sScrollY": 600,
+		"bPaginate": false,
+		"bScrollCollapse": true,
+		"sScrollX": "870px"
+			//"sScrollXInner": "110%"
+		});
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<h4>
+	Import Confirmation
+</h4>
+<table id="importresult" class="table table-bordered table-condensed span9">
+	<thead>
+		{% for col in colheaders %}
+		<th>{{ col }}</th>
+		{% endfor %}
+	</thead>
+	<tbody>
+		{% for row in importdata %}
+		<tr>
+			{% for col in row|keys() %}
+			<td>{{ attribute(row, col) }}</td>
+			{% endfor %}
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

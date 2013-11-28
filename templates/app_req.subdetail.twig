@@ -1,0 +1,46 @@
+{% if app_reqs %}
+<h5>
+	Application Requirements
+</h5>
+<table class="table table-bordered table-condensed">
+	{% set cols = getColumns('spk_app_req') %}
+	{{ lists.theadsortable(cols) }}
+	<tbody>						
+		{% for app_req in app_reqs %}
+		<tr {% if app_req.inherit_inactive %} class="inactive"{% endif %}>
+			<td>
+				{% if app_req.inherit_ == 'inst' %}
+				<a href="{{ urlFor('inst') }}">Inst.</a>
+				{% elseif app_req.inherit_ == 'spk_cat' %}
+				<a href="{{ urlFor('spk_cat', {spk_cat: spk_cd.spk_cat_type_cd}) }}">{{ spk_cd.spk_cat_type_cd }}</a>
+				{% endif %}
+			</td>
+			<td>
+				<a href="{{ urlFor('app_req', {app_req: app_req.app_rqmnt_cd}) }}">{{ app_req.app_rqmnt_cd }}</a>
+			</td>
+			<td>
+				{{ app_req.app_rqmnt_descr_ }}
+			</td>
+			<td>
+				{% set doc_reqs = app_req.doc_reqs_ %}
+				{% if doc_reqs %}
+				<button class="btn btn-link btn-nopad has-popover" title="Document Requirements">Y</button>
+				<div class="popover-content">
+					<ul class="unstyled">
+						{% for doc_req in doc_reqs %}
+						<li><a href="{{ urlFor('doc_req', {doc_req: doc_req.doc_rqmnt_cd}) }}">{{ doc_req.doc_rqmnt_cd }}</a></li>
+						{% endfor %}
+					</ul>
+				</div>
+				{% else %}
+				N
+				{% endif %}
+			</td>
+			<td>
+				{{ app_req.inherit_inactive ? 'N' : 'Y' }}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endif %}

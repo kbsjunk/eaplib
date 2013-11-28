@@ -1,0 +1,20 @@
+{% extends 'layout.twig' %}
+{% block page_title %}Import Log File{% endblock %}
+
+{% block content %}
+<h4>
+	Import Log File
+</h4>
+<article>
+	<header>
+		<h2>{{ logfile }}<small>.log</small></h2>
+	</header>
+	<pre>{% for logline in logdata %}{{ logSpan(logline) }}{% endfor %}</pre>
+</article>
+<div class="pagination">
+	<ul>
+		<li><a href="{{ urlFor('import_logs') }}"><i class="icon-double-angle-left"></i> Import Logs</a></li>
+		<li><a href="{{ urlFor('import') }}"><i class="icon-file"></i> New Import</a></li>
+	</ul>
+</div>
+{% endblock %}

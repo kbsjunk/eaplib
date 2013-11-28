@@ -1,0 +1,30 @@
+{% extends 'layout.twig' %}
+{% block page_title %}Under Construction{% endblock %}
+
+{% block content %}
+<h4>
+	Under Construction
+</h4>
+
+<article>
+	<header>
+		<h2>
+			Under Construction
+		</h2>
+	</header>	
+	<div style="padding:50px 0;">
+		<p>
+			The page you are attempting to view is currently under construction.
+		</p>
+		<p>
+			You can click <a href="javascript:history.go(-1)">here</a> to go back to the previous page you were visiting,
+			or go to the <a href="{{ urlFor('home') }}">home page</a>.
+		</p>
+	</div>
+</article>
+<div class="pagination">
+	<ul>
+		<li><a href="{{ urlFor('home') }}"><i class="icon-double-angle-left"></i> Home</a></li>
+	</ul>
+</div>
+{% endblock %}

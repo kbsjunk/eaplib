@@ -1,0 +1,34 @@
+{
+	"repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/kitbs/Granada"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/kitbs/SlimLog"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/kitbs/SlimTwigExts"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/kitbs/SlimBasicAuth"
+        }
+    ],
+    "require": {
+        "slim/slim": "2.*",
+        "slim/views": "0.1.*",
+        "twig/twig": "1.15.*@dev",
+        "kitbs/SlimLog": "dev-master",
+        "kitbs/SlimTwigExts": "dev-master",
+        "kitbs/SlimBasicAuth": "dev-master",
+        "jdorn/sql-formatter": "1.3.*@dev",
+        "j4mie/idiorm": "dev-master",
+        "kitbs/Granada": "dev-master"  
+    },
+    "autoload": {
+        "classmap": [ "models/" ]
+    }
+}

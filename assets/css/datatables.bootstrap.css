@@ -1,0 +1,184 @@
+/*div.dataTables_length label {
+width: 460px;
+float: left;
+text-align: left;
+}*/
+
+/*div.dataTables_length select {
+width: 75px;
+}*/
+
+/*div.dataTables_filter label {
+float: right;
+width: 460px;
+}*/
+
+div.dataTables_info {
+	padding-top: 4px;
+}
+
+div.dataTables_paginate {
+	float: right;
+	margin: 0;
+}
+
+table {
+	margin: 1em 0;
+	clear: both;
+}
+
+table.dataTable th:active {
+	outline: none;
+}
+
+.tablesorter-childRow td {
+	display:none;
+}
+
+.btn-table {
+	float:right;
+	padding:0 4px;
+	margin-bottom: -1px;
+	margin-top: -1px;
+	cursor:pointer;
+}
+.btn-table i {
+	cursor:pointer;
+}
+.btn-table:hover, .btn-table:focus {
+	text-decoration:none !important;
+}
+
+.tablesorter-childRow > td:first-child {
+	padding-left: 20px;
+}
+
+.tablesorter-childRow > td {
+	font-size:0.9em;
+}
+
+.fixedHeader .table {
+	background: white;
+	background: rgba(255, 255, 255, 0.9);
+}
+
+.dataTables_filter .input-prepend,
+.dataTables_filter .input-append,
+.dataTables_filter label,
+.dataTables_length .input-prepend,
+.dataTables_length .input-append,
+.dataTables_length label {
+	margin-bottom:0;
+}
+
+.table.tablesorter {
+	margin-bottom:15px;
+}
+
+.input-append .add-on, .input-prepend .add-on {
+	background-color: #F5F5F5;
+}
+
+/*div.dataTables_filter label {
+text-align: center;
+}*/
+
+.btn.datatable-filter-clear {
+	background: #FFFFFF;
+	border-color: #CCCCCC;
+	border-style: solid;
+	border-width: 1px;
+	cursor: pointer;
+	line-height: 20px;
+	padding: 4px 12px;
+	position: relative;
+	text-decoration: none;
+	border-bottom-right-radius: 4px;
+	border-top-right-radius: 4px;
+	color: #0088CC;
+}
+.btn.datatable-filter-clear:hover {
+	background: #F5F5F5;
+	color: #005580;
+}
+
+.dataTable th.sortable.sort-none .icon-sortable:before {
+	content: "\f0dc";
+}
+.dataTable th.sortable.sort-down .icon-sortable:before {
+	content: "\f0dd";
+}
+.dataTable th.sortable.sort-up .icon-sortable:before {
+	content: "\f0de";
+}
+
+.dataTable th select {
+	width: 100%;
+	/*height: auto;*/
+	height: 28px;
+	margin: 0 auto;
+	border:none;
+	padding: 4px 6px;
+	background-color: #fff;
+	color: #333;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+	/*	-webkit-transition: height 0.1s ease;
+	-moz-transition: height 0.1s ease;
+	-o-transition: height 0.1s ease;
+	transition: height 0.1s ease;*/
+	background-color:#f2f2f2;
+}
+
+.dataTable th input[type="text"] {
+	width: 100%;
+	height: 28px;
+	margin: 0 auto;
+	border:none;
+	padding: 4px 6px;
+	/*background-color: #fff;*/
+	color: #333;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	border-radius:0;
+	background-color:#f2f2f2;
+}
+.dataTable th input[type="text"]:focus {
+	box-shadow:none;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+
+tr.sortable-dropdowns {
+	display:none;
+}
+.dataTable tr.sortable-dropdowns {
+	display:table-row;
+}
+.dataTable tr.sortable-dropdowns th {
+	background: #F5F5F5;
+	padding:0;
+}
+
+.dataTables_scrollHead table {
+	margin-bottom:0 !important;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.dataTables_scrollHead thead:last-child tr:last-child > th:first-child,
+.dataTables_scrollHead thead:last-child tr:last-child > th:last-child
+{
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.dataTables_scrollBody table {
+	margin:0 !important;
+	position:relative;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	top:-2px;
+}

@@ -1,0 +1,34 @@
+{% extends 'layout.twig' %}
+{% block page_title %}Document Requirements{% endblock %}
+
+{% block content %}
+<h4>
+	Document Requirements
+</h4>
+<table class="table table-bordered table-condensed tablesorter">
+	{% set cols = getColumns('doc_req') %}
+	{{ lists.theadsortable(cols) }}
+	<tbody>
+		{% for doc_req in doc_reqs %}
+		<tr {% if doc_req.inactive %} class="inactive"{% endif %}>
+			<td>
+				<a href="{{ urlFor('doc_req', {doc_req: doc_req.doc_rqmnt_cd}) }}">{{ doc_req.doc_rqmnt_cd }}</a>
+			</td>
+			<td>
+				{{ doc_req.doc_rqmnt_descr_ }}
+			</td>
+			<td>
+				{{ doc_req.inactive ? 'N' : 'Y' }}
+			</td>
+			<td class="rec-tags">
+				{% for tag in doc_req.tags_ %}
+				{{ truncTag(tag) }}
+				{% else %}
+				<span class="muted">(none)</span>
+				{% endfor %}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

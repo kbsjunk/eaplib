@@ -1,0 +1,24 @@
+{% extends 'layout.twig' %}
+{% block page_title %}SQL Queries{% endblock %}
+
+{% block content %}
+<h4>
+	SQL Queries
+</h4>
+<table class="table table-bordered table-condensed tablesorter">
+	{% set cols = getColumns('sql_query') %}
+	{{ lists.theadsortable(cols) }}
+	<tbody>
+		{% for sql_query in sql_queries %}
+		<tr>
+			<td>
+				<a href="{{ urlFor('sql_query') }}{{ sql_query.output_file|e('url') }}">{{ sql_query.output_file }}</a>
+			</td>
+			<td>
+				{{ sql_query.descr }}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

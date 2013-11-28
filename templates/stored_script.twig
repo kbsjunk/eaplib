@@ -1,0 +1,199 @@
+@msExportFolderCode = "{{ export_folder|default('$USRAREA') }}"  // server folder code where the files will be dumped to
+
+//===============================================================================================//
+
+Option Strict On
+Option Explicit On
+
+References System
+References System.Data
+
+@moProcessesWithErrors = String.Empty
+@moFilesGenerated = String.Empty
+
+// Constants used in the filenames
+{% for sql_query in sql_queries %}
+@{{ sql_query.output_file }} = "{{ sql_query.output_file }}"
+{% endfor %}
+
+@msDatabaseId = String.Empty 
+
+Run_Export()
+
+Function Run_Export As Boolean
+  
+  StatLog.Write("eApplication Library Export started." & vbCrLf)
+  
+  Dim loSW As System.IO.StreamWriter
+  Dim lsFolderPath As String = T1.Tb.IO.DirectoryCode.GetAbsolutePath(@msExportFolderCode)
+  Dim lsFilename As String = String.Empty
+  
+  // Construct the filename
+  @msDatabaseId = msGetDatabaseId()
+  
+  lsFilename = "eaplib_" & @msDatabaseId & "_" & Format(Now, "yyyyMMddHHmmss") & ".xml"
+  
+  Try
+  loSW = New System.IO.StreamWriter(lsFolderPath &  lsFilename) //& "\eaplib\" ??
+  Catch ex As Exception
+  StatLog.Write(ex.Message)  // remember: if exceptions aren't caught, they terminate the script at that point, which we don't want
+  Return False
+  End Try
+  
+  loSW.WriteLine("<?xml version=""1.0""?>")
+  
+loSW.WriteLine("<export>")
+loSW.WriteLine("  <exportSource>")
+loSW.WriteLine("    <date>" & Format(Now, "yyyy-MM-dd HH:mm:ss") & "</date>")
+loSW.WriteLine("    <environment>" & @msDatabaseId & "</environment>")
+loSW.WriteLine("  </exportSource>")
+  
+loSW.WriteLine("  <exportTables>")
+
+  // Perform each export process
+{% for sql_query in sql_queries %}
+DoProcess(@{{ sql_query.output_file }}, loSW)
+{% endfor %}
+
+  loSW.WriteLine("  </exportTables>")
+  loSW.WriteLine("</export>")
+  
+  StatLog.Write("The following tables have been exported to the export file : " & vbCrLf & @moFilesGenerated)
+  
+  loSW.Close()
+  
+  Results.ReturnValue = True
+  
+End Function
+
+
+// Performs each process by calling the appropriate process function
+Private Sub DoProcess(ByVal processName As String, ByRef loSW As System.IO.StreamWriter)
+  Dim lbResult As Boolean = False
+  Dim loDS As System.Data.DataSet
+  
+  Try
+  StatLog.Write("Preparing export of " & processName & " ....")
+  Select Case processName 
+{% for sql_query in sql_queries %}
+  Case @{{ sql_query.output_file }}
+    loDS = DoSQL_{{ sql_query.output_file }}(processName)
+{% endfor %}
+  Case Else
+    @moProcessesWithErrors = @moProcessesWithErrors & processName & vbCrLf
+    StatLog.Write("Export of " & processName & " **FAILED**. Query does not exist.")
+    Exit Sub
+  End Select
+  
+  Catch ex As Exception
+  StatLog.Write("Error detected in DoSQL of " & processName & " : " & ex.Message)
+  End Try
+  
+  lbResult = WriteToFile(loDS, processName, loSW)
+  
+  If Not lbResult Then
+    @moProcessesWithErrors = @moProcessesWithErrors & processName & vbCrLf
+    StatLog.Write("Export of " & processName & " **FAILED** with errors.")
+  Else
+    StatLog.Write("Export of " & processName & " SUCCEEDED.")
+  End If
+  
+  
+  
+End Sub
+
+//===========================================================================//
+//   Data Extraction Methods
+//===========================================================================//
+
+{% for sql_query in sql_queries %}
+
+// File: {{ sql_query.descr }} ({{ sql_query.output_file }})
+Private Function DoSQL_{{ sql_query.output_file }}(ByVal processName As String) As System.Data.DataSet
+  Dim loDS As System.Data.DataSet 
+  
+ExecSQL.Begin
+{{ unHTML(sql_query.query_(false, false, false)|raw) }}
+ExecSQL.End
+  
+  loDS = ExecSQL.ExecuteDataSet()
+  
+  Return loDS
+End Function
+
+//---------------------------------------------------------------------------//
+
+{% endfor %}
+
+//===========================================================================//
+//   Supporting Methods
+//===========================================================================//
+
+// Writes data out to a file
+Private Function WriteToFile(ByVal dataSet As System.Data.DataSet, ByVal processName As String, ByRef loSW As System.IO.StreamWriter) As Boolean
+  
+  Dim liColumnCount As Integer 
+  
+  If dataSet.Tables.Count = 0 Then 
+    StatLog.Write("An error occurred when executing to the dataset in " & processName & ". Check the final SQL select statement.")
+    Return False
+  End If
+  
+  liColumnCount = dataSet.Tables(0).Columns.Count
+  
+  loSW.WriteLine("      <exportTable>")
+  loSW.WriteLine("        <tableName>" & processName & "</tableName>")
+  
+  loSW.WriteLine("        <tableData>")
+  loSW.WriteLine("<![CDATA[")
+  
+  Dim j as Integer = 0
+  Dim lsValue as String
+  
+  For Each loColumn as System.Data.DataColumn in dataSet.Tables(0).Columns
+    loSW.Write("""" & LCase(loColumn.ColumnName) & """")
+    If j < (liColumnCount - 1) Then loSW.Write(",")  // append a delimiter if this isn't the last field on the line
+    j = j + 1
+  Next
+  
+  loSW.Write(vbCrLf)
+  
+  For Each loRow As System.Data.DataRow In dataSet.Tables(0).Rows
+    For i As Integer = 0 To liColumnCount - 1
+      If TypeOf loRow.Item(i) Is Date Then
+        loSW.Write(Format(loRow.Item(i), "dd-MMM-yyyy"))  // e.g. 28-Apr-2008
+      Else
+        
+        lsValue = loRow.Item(i).ToString
+        lsValue = Replace(lsValue, """", """""")
+        lsValue = Replace(lsValue, vbCrLf, ";;")
+        lsValue = Replace(lsValue, vbCr, ";;")
+        lsValue = Replace(lsValue, vbLf, ";;")
+        
+        loSW.Write("""" & lsValue & """")
+      End If
+      If i < (liColumnCount - 1) Then loSW.Write(",")  // append a delimiter if this isn't the last field on the line
+    Next
+    loSW.Write(vbCrLf)
+  Next
+  
+  loSW.WriteLine("]]>")
+  loSW.WriteLine("        </tableData>")
+  
+  loSW.WriteLine("      </exportTable>") 
+  
+  @moFilesGenerated = @moFilesGenerated & " " & processName & vbCrLf
+  
+  Return True
+End Function
+
+Private Function msGetDatabaseId() As String
+  ExecSQL.Begin
+  select value
+  from   f1_sypar_ctl
+  where  param_name = 'UM_DATABASE_ID'
+  ExecSQL.End
+  If ExecSQL.IsError Then Return String.Empty
+  
+  Return ExecSQL.Value("value", 1)
+End Function

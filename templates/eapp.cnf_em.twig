@@ -1,0 +1,7 @@
+<div class="email-group">
+	{% set dsp_crts = cnf_em.dsp_crts_ %}
+	{% include 'eap.dsp_crt.twig' %}
+	<p>
+		{{ cnf_em.eap_rspns_text_|raw }}
+	</p>
+</div>

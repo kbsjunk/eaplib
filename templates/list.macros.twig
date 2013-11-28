@@ -1,0 +1,18 @@
+{% macro theadsortable(cols, exclude) %}
+<thead>
+	<tr>
+		{% for key, col in cols if key not in exclude  %}
+		<th class="{{ col.class }}">{{ col.title }}</th>
+		{% endfor %}
+	</tr>
+	<tr class="sortable-dropdowns">
+		{% for key, col in cols if key not in exclude %}
+		<th class="{% if col.dropdown %}sortable-dropdown{% endif %}"></th>
+		{% endfor %}
+	</tr>
+</thead>
+{% endmacro %}
+
+{% macro trnonefound(cols) %}
+<tr class="nonefound"><td colspan="{{ cols|default(1) }}"><span class="muted">None found.</span></td></tr>
+{% endmacro %}

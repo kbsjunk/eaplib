@@ -1,0 +1,333 @@
+{% extends 'layout.twig' %}
+{% block page_title %}Home{% endblock %}
+
+{% block content %}
+<h4>
+	Home
+</h4>
+
+<article>
+	<header>
+		<h2>
+			eApplication Library
+		</h2>
+	</header>	
+	<div style="padding:20px 0;">
+		<h3>
+			Purpose
+		</h3>
+		<p>
+			The eApplication Library lists all available configuration for online applications at the University of Melbourne.
+		</p>
+		<p class="text-error">
+			<strong>This website is for internal staff use only. You cannot apply to study at the University of Melbourne using this website.</strong>
+		</p>
+		<p><br></p>
+		{% if current_environment %}
+		<p>
+			This data is current as at <strong>{{ last_import }}</strong> and was imported from <strong>{{ current_environment }}</strong>.
+		</p>
+		{% else %}
+		<p>
+			<strong>No data has been imported. This site will not function without reference data from ISIS.</strong>
+		</p>
+		{% endif %}
+		<br>
+		<h3>
+			Library Functions
+		</h3>
+
+		<p>
+			The library is divided into two sections:
+		</p>
+		<div class="row-fluid">
+			<div class="span6">
+				<div class="well">
+					<h4>
+						Reference Data
+					</h4>
+					<p>
+						Individual application requirements, document requirements, and confirmation emails, separate from the courses they belong to.
+					</p>
+					{#
+					{%
+					set menu =
+					[
+					{
+					'title' : 'Application Requirements',
+					'descr' : 'The questions asked of applicants.',
+					'url' : 'app_reqs',
+					'icon' : 'question-sign',
+				}			
+				]
+				%}
+				<ul class="media-list">
+					{% for mitems in menu %}
+					<li class="media">
+						<span class="pull-left left-icon">
+							<i class="icon-{{ mitem.icon }} icon-3x"></i>
+						</span>
+						<div class="media-body">
+							<a href="{{ urlFor( 'app_reqs' ) }}">
+								<h5 class="media-heading">{{ mitem.title }}</h5>
+							</a>
+							<p>
+								{{ mitem.descr }}
+							</p>
+						</div>
+					</li>
+					{% endfor %}
+
+					<li class="media">
+						<span class="pull-left left-icon">
+							<i class="icon-file-text-alt icon-3x"></i>
+						</span>
+						<div class="media-body">
+							<a href="{{ urlFor('doc_reqs') }}">
+								<h5 class="media-heading">Document Requirements</h5>
+							</a>
+							<p>
+								The documents that applicants are required to upload against an application requirement.
+							</p>
+						</div>
+					</li>
+					<li class="media">
+						<span class="pull-left left-icon">
+							<i class="icon-question-sign icon-3x"></i>
+						</span>
+						<div class="media-body">
+							<a href="{{ urlFor('app_reqs') }}">
+								<h5 class="media-heading">Application Requirements</h5>
+							</a>
+							<p>
+								The questions asked of applicants.
+							</p>
+						</div>
+					</li>
+					<li class="media">
+						<span class="pull-left left-icon">
+							<i class="icon-question-sign icon-3x"></i>
+						</span>
+						<div class="media-body">
+							<a href="{{ urlFor('app_reqs') }}">
+								<h5 class="media-heading">Application Requirements</h5>
+							</a>
+							<p>
+								The questions asked of applicants.
+							</p>
+						</div>
+					</li>
+				</ul>
+
+				#}
+				<ul class="unstyled">
+					<li>
+						<h5>
+							<a href="{{ urlFor('app_reqs') }}">
+								Application Requirements
+							</a>
+						</h5>
+						<p>
+							The questions asked of applicants.
+						</p>
+					</li>
+					<li>
+						<h5>
+							<a href="{{ urlFor('doc_reqs') }}">
+								Document Requirements
+							</a>
+						</h5>
+						<p>
+							The documents that applicants are required to upload against an application requirement.
+						</p>
+					</li>
+					<li>
+						<h5>
+							<a href="{{ urlFor('cnf_ems') }}">
+								Confirmation Emails/ eApplication Submission Texts
+							</a>
+						</h5>
+						<p>
+							The email messages that are sent to applicants after submission of an application.
+						</p>
+					</li>
+					<li>
+						<h5>
+							<a href="{{ urlFor('std_cds') }}">
+								Dropdown Lists/ Standard Codes
+							</a>
+						</h5>
+						<p>
+							The lists of values that are used to specify applicants' responses.
+						</p>
+					</li>
+
+				</ul>
+			</div>
+		</div>
+		<div class="span6">
+			<div class="well">
+				<h4>
+					Configuration
+				</h4>
+				<p>
+					The specific configuration of online applications for each course in the University.
+				</p>
+
+				<ul class="unstyled">
+					<li>
+						<h5>
+							<a href="{{ urlFor('inst') }}">
+								Institution
+							</a>
+						</h5>
+						<p>
+							Application requirements and confirmation emails which will be used by every course in the University.
+						</p>
+					</li>
+					<li>
+						<h5>
+							<a href="{{ urlFor('spk_cats') }}">
+								Course Types/ Study Package Category Types
+							</a>
+						</h5>
+						<p>
+							Application requirements and confirmation emails which will be used by specific course types. 
+							Institution configuration will be inherited by default, but can be overridden by individual course types.
+						</p>
+					</li>
+					<li>
+						<h5>
+							<a href="{{ urlFor('spk_cds') }}">
+								Courses/ Study Packages
+							</a>
+						</h5>
+						<p>
+							Application requirements and confirmation emails which will be used by specific course <i>versions</i>. 
+							Institution and course type configuration will be inherited by default, but can be overridden by individual courses.
+						</p>
+					</li>
+
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<h3>
+		Maintenance Functions
+	</h3>
+
+	<p>
+		The backend is divided into two sections:
+	</p>
+
+	<div class="row-fluid">
+		<div class="span6">
+
+			<div class="well">			
+				<h4>
+					Utilities
+				</h4>
+				<p>
+					There are also additional pages to assist with categorising and understanding the information.
+				</p>
+				<ul class="unstyled">
+					<li>
+						<h5>
+							<a href="{{ urlFor('tags') }}">
+								Tags
+							</a>
+						</h5>
+						<p>
+							Group all application requirements, document requirements, confirmation emails and dropdown lists which are of a similar type.
+						</p>
+					</li>
+					<li>
+						<a href="{{ urlFor('urls') }}">
+							<h5>
+								URLs and Email Addresses
+							</h5>
+						</a>
+						<p>
+							Shows all URLs and email addresses used by application requirements, document requirements and confirmation emails, and identifies where links are broken. 
+						</p>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+
+<!-- 			<div class="DTTT_container">
+<a class="DTTT_button DTTT_button_copy" id="ToolTables_DataTables_Table_0_0">
+<i class="icon-copy"></i>
+</a>
+<a class="DTTT_button DTTT_button_csv" id="ToolTables_DataTables_Table_0_1">
+<i class="icon-table"></i>
+</a>
+<a class="DTTT_button DTTT_button_pdf" id="ToolTables_DataTables_Table_0_2">
+<i class="icon-file-text-alt"></i>
+</a>
+<a class="DTTT_button DTTT_button_print" id="ToolTables_DataTables_Table_0_3" title="View print view">
+<i class="icon-print"></i>
+</a>
+</div> -->
+
+<div class="span6">
+
+	<div class="well">		
+		<h4>
+			Maintenance
+		</h4>
+		<p>
+			These functions allow for the ongoing maintenance of the eApplication library, to keep the data up to date.
+		</p>
+		<ul class="unstyled">
+			<li>
+				<h5>
+					<a href="{{ urlFor('sql_queries') }}">
+						SQL Queries
+					</a>
+				</h5>
+				<p>
+					A list of the SQL queries to extract the necessary data from ISIS.
+				</p>
+			</li>	
+			<li>
+				<h5>
+					<a href="{{ urlFor('export') }}">
+						ISIS Export Script
+					</a>
+				</h5>
+				<p>
+					A Stored Script for use in ISIS to export the necessary data.
+				</p>
+			</li>	
+			<li>
+				<h5>
+					<a href="{{ urlFor('import') }}">
+						Import ISIS Data
+					</a>
+				</h5>
+				<p>
+					A function to import data from ISIS.
+				</p>
+			</li>
+			<li>
+				<h5>
+					<a href="{{ urlFor('import_logs') }}">
+						Import Logs
+
+					</a>
+				</h5>
+				<p>
+					Logs of the import process to check for errors.
+				</p>
+			</li>	
+		</ul>
+	</div>
+</div>
+</div>
+
+</div>
+</article>
+{% endblock %}

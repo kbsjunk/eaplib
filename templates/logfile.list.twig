@@ -1,0 +1,29 @@
+{% extends 'layout.twig' %}
+{% block page_title %}Import Logs{% endblock %}
+
+{% block content %}
+<h4>
+	Import Log Files
+</h4>
+<table class="table table-bordered table-condensed tablesorter">
+	{% set cols = getColumns('logs') %}
+	{{ lists.theadsortable(cols) }}
+	<tbody>
+		{% for logfile in import_logs %}
+		<tr>
+			<td>
+				<a href="{{ urlFor('import_log',  { logfile: logfile.logfile }) }}">{{ logfile.logfile }}</a><span class="muted text-muted">.log</span>
+			</td>
+			<td>
+				{{ logfile.date }}
+			</td>
+			<td>
+				{{ logfile.filename }}
+			</td>
+		</tr>
+		{% else %} 
+		<tr><td colspan="3"><span class="muted">None found.</span></td></tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

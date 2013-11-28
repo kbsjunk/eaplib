@@ -1,0 +1,42 @@
+{% extends 'layout.twig' %}
+{% block page_title %}Export ISIS Data{% endblock %}
+
+{% block footer_scripts %}
+<script src="/assets/js/ZeroClipboard.min.js"></script>
+<script src="/assets/js/clipboard.js"></script>
+{% endblock %}
+
+{% block content %}
+<h4>
+	Export ISIS Data
+</h4>
+<article>
+	<div class="accordion" id="accordion2">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+					Stored Script
+				</a>
+			</div>
+			<div id="collapseOne" class="accordion-body collapse in">
+				<div class="accordion-inner tab-pre">
+					<div class="pagination pull-right" style="margin-bottom:0;margin-top:0;">
+						<ul>
+							<li><a id="clipboard" data-clipboard-target="vb_text" href="#" title="Copy to clipboard"><i class="icon-copy"></i></a></li>
+						</ul>
+					</div>
+					<p>
+						Run the following Stored Script in ISIS to export the data in the required format:
+					</p>
+					<textarea id="vb_text" class="input-block-level pre" readonly>{% include 'stored_script.twig' %}</textarea>
+				</div>
+			</div>
+		</div>
+	</div>
+</article>
+<div class="pagination">
+	<ul>
+		<li><a href="{{ urlFor('import') }}"><i class="icon-double-angle-left"></i> Import Data</a></li>
+	</ul>
+</div>
+{% endblock %}

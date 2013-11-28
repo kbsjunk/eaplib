@@ -1,0 +1,13 @@
+<form action="{{ urlFor('post_tags', {rec_cd: rec_cd, rec_type:rec_type }) }}" method="post">
+	<!--<input type="hidden" name="rec_type" value="{{ rec_type }}" />
+	<input type="hidden" name="rec_cd" value="{{ rec_cd }}" />-->
+	<select class="chzn-select" name="tags[]" multiple="multiple" autocomplete="off" data-placeholder="Enter tags">
+		<option value=""></option> 
+		{% for tag in all_tags %}
+		<option value="{{ tag.tag }}"{% if tag.tag in tags %} selected="selected"{% endif %}>{{ tag.tag }}</option> 
+		{% endfor %}
+	</select>
+	<p style="margin-top:10px;">
+		<button type="button" class="btn btn-mini chzn-save" data-loading-text="Saving...">Save</button>
+	</p>
+</form>

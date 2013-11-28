@@ -1,0 +1,151 @@
+{% extends 'layout.twig' %}
+{% block page_title %}eApplication Submission Text{% endblock %}
+
+{% block sidebar %}
+<h4>Tags</h4>
+{% include 'tags.part.twig' with {
+rec_type: 'cnf_em',
+rec_cd: cnf_em.eap_rspns_cd,
+tags: cnf_em.tags_,
+all_tags: all_tags
+} %}
+{% endblock %}
+
+{% block content %}
+<h4>
+	eApplication Submission Text
+</h4>
+
+<article {% if cnf_em.inactive %} class="inactive"{% endif %}>
+	<header>
+		<h2>{{ cnf_em.eap_rspns_descr_ }} 
+			<small>{{ cnf_em.eap_rspns_cd }}</small>
+		</h2>
+	</header>
+	<div class="accordion" id="accordion2">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+					Confirmation Email Preview
+				</a>
+			</div>
+			<div id="collapseOne" class="accordion-body collapse in">
+				<div class="accordion-inner eapplication-wrapper email-wrapper">
+					<div class="email-body">
+						<p class="email-head">
+							<strong>Application Confirmation</strong><br>
+							University of Melbourne &lt;no-reply@unimelb.edu.au&gt;
+						</p>
+						{% include 'eapp.cnf_em.twig' %}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+					Configuration Details
+				</a>
+			</div>
+			<div id="collapseTwo" class="accordion-body collapse">
+				<div class="accordion-inner">
+					
+							<h5>
+								Email Text
+							</h5>
+							<div class="panel">
+								<p>{{ cnf_em.eap_rspns_text_|raw }}</p>
+							</div>
+					
+					{% set dsp_crts = cnf_em.dsp_crts_ %}
+					{% include 'dsp_crt.subdetail.twig' %}
+					
+					
+					{% set urls = cnf_em.urls_ %}
+					{% include 'url.subdetail.twig' with {
+					rec_type: 'cnf_em',
+					rec_cd: cnf_em.eap_rspns_cd,
+					notajax: true
+					} %}
+					
+				</div>
+			</div>
+		</div>
+			<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+					In Use
+				</a>
+			</div>
+			<div id="collapseThree" class="accordion-body collapse">
+				<div class="accordion-inner">
+					
+					<div class="tabbable">
+						<ul class="nav nav-tabs"> 
+							<li class="active"><a href="#tab-spk" data-toggle="tab">Course</a></li>
+							<li><a href="#tab-spk_cat" data-toggle="tab">Course Type</a></li>
+							<li><a href="#tab-inst" data-toggle="tab">Institution</a></li>
+						</ul>
+						<div class="tab-content">
+							<div class="tab-pane" id="tab-inst">
+								
+							</div>
+							<div class="tab-pane" id="tab-spk_cat">
+								<ul class="nav nav-tabs"> 
+									<li class="active"><a href="#tab-spk_cat-active" data-toggle="tab">Active</a></li>
+									<li><a href="#tab-spk_cat-inactive" data-toggle="tab">Inactive</a></li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="tab-spk_cat-active">
+										<h5>
+											Study Package Category Types which use this Confirmation Email
+										</h5>
+										{% set spk_cats = cnf_em.spk_cats_(true) %}
+										{% include 'spk_cats.subdetail.twig' %}
+									</div>
+									<div class="tab-pane" id="tab-spk_cat-inactive">
+										<h5>
+											Study Package Category Types which disinherit this Confirmation Email
+										</h5>
+										{% set spk_cats = cnf_em.spk_cats_(false) %}
+										{% include 'spk_cats.subdetail.twig' %}
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane active" id="tab-spk">
+								<ul class="nav nav-tabs"> 
+									<li class="active"><a href="#tab-spk-active" data-toggle="tab">Active</a></li>
+									<li><a href="#tab-spk-inactive" data-toggle="tab">Inactive</a></li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="tab-spk-active">
+										<h5>
+											Study Packages which use this Confirmation Email
+										</h5>
+										{% set spk_cds = cnf_em.spk_cds_ %}
+										{% include 'spks.subdetail.twig' with {'inactives':false} %}
+									</div>
+									<div class="tab-pane" id="tab-spk-inactive">
+										<h5>
+											Study Packages which disinherit this Confirmation Email
+										</h5>
+										{% set spk_cds = cnf_em.spk_cds_ %}
+										{% include 'spks.subdetail.twig' with {'inactives':true} %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>				
+				</div>
+			</div>
+		</div>	
+		
+		
+	</div>
+</article>
+<div class="pagination">
+	<ul>
+		<li><a href="{{ urlFor('cnf_ems') }}"><i class="icon-double-angle-left"></i> eApplication Submission Texts</a></li>
+	</ul>
+</div>
+{% endblock %}

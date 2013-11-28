@@ -1,0 +1,45 @@
+{% extends 'layout.twig' %}
+{% block page_title %}Tagged Records{% endblock %}
+
+{% block content %}
+<h4>
+	Tags
+</h4>
+<article>
+	<header>
+		<h2>{{ tag }}</h2>
+	</header>	
+	
+	<h5>
+		Tagged Records
+	</h5>
+	<table class="table table-bordered table-condensed tablesorter">
+		{% set cols = getColumns('tags') %}
+		{{ lists.theadsortable(cols) }}
+		<tbody>						
+			{% for tag in tags %}
+			<tr>{# {% if tag.rec_.inactive %} class="inactive"{% endif %}>#}
+				<td>
+					<a href="{{ urlFor(tag.rec_type ~ 's')  }}">{{ tag.rec_type_ }}</a>
+				</td>
+				<td>
+					<a href="{{ urlFor(tag.rec_type) ~ tag.rec_cd }}">{{ tag.rec_cd }}</a>
+				</td>
+				<td>
+					{{ tag.rec_title_ }}
+				</td>
+				<td>
+					{#{{ tag.rec_.active_fg }}#}
+				</td>
+			</tr>
+			{% endfor %}
+			
+		</tbody>
+	</table>		
+</article>
+<div class="pagination">
+	<ul>
+		<li><a href="{{ urlFor('tags') }}"><i class="icon-double-angle-left"></i> Tags</a></li>
+	</ul>
+</div>
+{% endblock %}

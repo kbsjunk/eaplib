@@ -1,0 +1,256 @@
+{% extends 'layout.twig' %}
+{% block page_title %}Application Requirement{% endblock %}
+
+{% block sidebar %}
+<h4>Tags</h4>
+{% include 'tags.part.twig' with {
+rec_type: 'app_req',
+rec_cd: app_req.app_rqmnt_cd,
+tags: app_req.tags_,
+all_tags: all_tags
+} %}
+{% endblock %}
+
+{% block content %}
+<h4>
+	Application Requirement
+</h4>
+
+<article {% if app_req.inactive %} class="inactive"{% endif %}>
+	<header>
+		<h2>{{ app_req.app_rqmnt_descr_ }} 
+			{% if app_req.parent_app_rqmnt_cd_ %} <span class="muted">(Nested)</span>{% endif %}
+			<small>{{ app_req.app_rqmnt_cd }}</small>
+		</h2>
+	</header>
+	
+	{% if app_req.inactive %}<p class="alert alert-danger">This application requirement is inactive and cannot be used.</p>{% endif %}
+	{% if app_req.parent_app_rqmnt_cd_ %}<p class="alert alert-info">This application requirement is nested with <a href="{{ urlFor('app_req', {app_req: app_req.parent_app_rqmnt_cd_}) }}">{{ app_req.parent_app_rqmnt_cd_ }}</a> and cannot be used in isolation.</p>{% endif %}	
+	
+	<div class="accordion" id="accordion2">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+					eApplication Preview
+				</a>
+			</div>
+			<div id="collapseOne" class="accordion-body collapse in">
+				<div class="accordion-inner eapplication-wrapper">
+					<div class="eapplication">
+						{% include 'eapp.app_req.twig' %}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+					Configuration Details
+				</a>
+			</div>
+			<div id="collapseTwo" class="accordion-body collapse">
+				<div class="accordion-inner">
+					
+							<h5>
+								Instructions
+							</h5>
+							<div class="panel">
+								<p>{{ app_req.app_rqmnt_full_descr_|raw }}</p>
+							</div>
+						
+					
+					
+					<!-- ---------------------------------------------------------- -->
+					{% if app_req.resp_prompt_fg == 'Y' %}
+					<div class="row-fluid">
+						<div class="span3">
+							<h5>
+								Number of Responses
+							</h5>
+							<table class="table table-bordered table-condensed">
+								<tbody>
+									<tr>
+										<th style="width:80px;">Required</th>
+										<td style="width:30px;">{{ app_req.required_number_responses }}</td>
+									</tr>
+									<tr>
+										<th>Default</th>
+										<td>{{ app_req.default_number_responses }}</td>
+									</tr>
+									<tr>
+										<th>Maximum</th>
+										<td>{{ app_req.max_number_responses }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="span9">
+							<h5>
+								Response Fields
+							</h5>
+							<table class="table table-bordered table-condensed">
+								<thead>
+									<tr>
+										<th>Label</th>
+										<th class="rec-fg">Mandatory</th>
+										<th class="rec-fg">Length</th>
+										<th class="rec-cd">Dropdown</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for usr_fld in app_req.usr_flds_ %}
+									<tr>
+										<td>
+											{{ usr_fld.label_(false)|raw ?: '<span class="muted">(unlabelled)</span>' }}
+										</td>
+										<td>
+											{{ usr_fld.mandatory_fg }}
+										</td>
+										<td>
+											{{ usr_fld.maximum_length }}
+										</td>
+										<td>
+											<a href="{{ urlFor('std_cd', {std_cd: usr_fld.code_type}) }}">{{ usr_fld.code_type }}</a>
+										</td>
+									</tr>
+									{% else %} 
+									<tr><td colspan="2">None found.</td></tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+					{% endif %}
+					
+					<!-- ---------------------------------------------------------- -->
+					{% if app_req.doc_reqs_ %}
+					<h5>
+						Document Requirements
+					</h5>
+					<div class="row-fluid">
+						<div class="span3">
+							<table class="table table-bordered table-condensed">
+								<tbody>
+									<tr>
+										<th style="width:80px;">Required</th>
+										<td style="width:30px;">{{ app_req.doc_rqmnt_comp_fg_ }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="span9">
+							<table class="table table-bordered table-condensed">
+								<thead>
+									<tr>
+										<th class="rec-cd">Code</th>
+										<th>Title</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for doc_req in app_req.doc_reqs_ %}
+									<tr>
+										<td><a href="{{ urlFor('doc_req', {doc_req: doc_req.doc_rqmnt_cd}) }}">{{ doc_req.doc_rqmnt_cd }}</a></td>
+										<td>
+											{{ doc_req.doc_rqmnt_descr_ }}
+										</td>
+									</tr>
+									{% else %} 
+									<tr><td colspan="2">None found.</td></tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+					{% endif %}
+					
+					{% set dsp_crts = app_req.dsp_crts_ %}
+					{% include 'dsp_crt.subdetail.twig' %}
+					
+					{% set urls = app_req.urls_ %}
+					{% include 'url.subdetail.twig' with {
+					rec_type: 'app_req',
+					rec_cd: app_req.app_rqmnt_cd, 
+					notajax: true
+					} %}
+					
+					
+				</div>
+			</div>
+		</div>
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+					In Use
+				</a>
+			</div>
+			<div id="collapseThree" class="accordion-body collapse">
+				<div class="accordion-inner">
+					
+					<div class="tabbable">
+						<ul class="nav nav-tabs"> 
+							<li class="active"><a href="#tab-spk" data-toggle="tab">Course</a></li>
+							<li><a href="#tab-spk_cat" data-toggle="tab">Course Type</a></li>
+							<li><a href="#tab-inst" data-toggle="tab">Institution</a></li>
+						</ul>
+						<div class="tab-content">
+							<div class="tab-pane" id="tab-inst">
+								
+							</div>
+							<div class="tab-pane" id="tab-spk_cat">
+								<ul class="nav nav-tabs"> 
+									<li class="active"><a href="#tab-spk_cat-active" data-toggle="tab">Active</a></li>
+									<li><a href="#tab-spk_cat-inactive" data-toggle="tab">Inactive</a></li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="tab-spk_cat-active">
+										<h5>
+											Study Package Category Types which use this Application Requirement
+										</h5>
+										{% set spk_cats = app_req.spk_cats_ %}
+										{% include 'spk_cats.subdetail.twig' with {'inactives':false} %}
+									</div>
+									<div class="tab-pane" id="tab-spk_cat-inactive">
+										<h5>
+											Study Package Category Types which disinherit this Application Requirement
+										</h5>
+										{% set spk_cats = app_req.spk_cats_ %}
+										{% include 'spk_cats.subdetail.twig' with {'inactives':true} %}
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane active" id="tab-spk">
+								<ul class="nav nav-tabs"> 
+									<li class="active"><a href="#tab-spk-active" data-toggle="tab">Active</a></li>
+									<li><a href="#tab-spk-inactive" data-toggle="tab">Inactive</a></li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="tab-spk-active">
+										<h5>
+											Study Packages which use this Application Requirement
+										</h5>
+										{% set spk_cds = app_req.spk_cds_ %}
+										{% include 'spks.subdetail.twig' with {'inactives':false} %}
+									</div>
+									<div class="tab-pane" id="tab-spk-inactive">
+										<h5>
+											Study Packages which disinherit this Application Requirement
+										</h5>
+										{% set spk_cds = app_req.spk_cds_ %}
+										{% include 'spks.subdetail.twig' with {'inactives':true} %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>				
+				</div>
+			</div>
+		</div>
+	</div>
+</article>
+<div class="pagination">
+	<ul>
+		<li><a href="{{ urlFor('app_reqs') }}"><i class="icon-double-angle-left"></i> Application Requirements</a></li>
+	</ul>
+</div>
+
+{% endblock %}

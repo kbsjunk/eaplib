@@ -1,0 +1,85 @@
+{% import "list.macros.twig" as lists %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>eApplication Library &ndash; {% block page_title %} {% endblock %}</title>
+	<meta charset="iso-8859-1" />
+	
+	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet"/> 
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet"/>
+
+	<link href="{{ urlFor('home') }}assets/css/style.css" rel="stylesheet"/>
+	<link href="{{ urlFor('home') }}assets/css/eapplication.css" rel="stylesheet"/>
+	<link href="{{ urlFor('home') }}assets/css/chosen.bootstrap.css" rel="stylesheet"/>
+	<link href="{{ urlFor('home') }}assets/css/datatables.bootstrap.css" rel="stylesheet"/>
+	<link href="{{ urlFor('home') }}assets/css/datatables.tabletools.css" rel="stylesheet" />
+	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+	{% block header_scripts %} {% endblock %}
+	{% if testSite() %}
+	<style type="text/css">
+	body { background-image: url(/assets/img/test-bg.png); }
+	.accordion-heading, .accordion-body, .nav-tabs > li > a, table.table { background: white; }
+	</style>
+	{% endif %}
+</head>
+<body>
+	<div id="wrap">
+
+		{% include 'navbar.part.twig' %}
+
+		<div class="container" style="margin-bottom:70px;">
+			<div class="row">
+				<div class="span3" id="nav-left">
+					<div data-spy="affix" class="span3" data-offset-top="0" style="margin:0;">
+						<h4>Navigation</h4>
+						<ul id="toc" class="nav nav-tabs nav-stacked">
+							<li><a href="javascript:history.go(-1);" id="toback"><i class="icon-double-angle-left"></i> Back</a></li>
+						</ul>
+						{% block sidebar %} {% endblock %}
+					</div>
+					<div class="pagination" style="position:fixed;bottom:20px">
+						<ul>
+							<li><a href="#" id="totop" style="display:none;"><i class="icon-double-angle-up"></i> Top</a></li>
+						</ul>
+					</div>
+
+				</div>
+				<div class="span9" id="main-box">
+					{% block content %} {% endblock %}
+				</div>
+			</div>
+		</div>
+		<div id="push"></div>
+	</div>
+	<footer id="footer">
+		<div class="page-footer">
+			<p class="muted credit">University of Melbourne - eApplication Library - Internal Use Only</p>
+			{% if testSite() %}
+			<p class="muted credit">
+				<strong>
+					<small>The current data is from an ISIS testing system and may not represent what is currently displayed to applicants.
+					</small>
+				</strong>
+			</p>
+			{% endif %}
+		</div>
+	</footer>
+
+	<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script> 
+	<script src="{{ urlFor('home') }}assets/js/jquery.datatables.min.js"></script>
+	<script src="{{ urlFor('home') }}assets/js/jquery.datatables.fixedheader.js"></script>
+	<script src="{{ urlFor('home') }}assets/js/jquery.datatables.tabletools.zeroclipboard.js"></script>
+	<script src="{{ urlFor('home') }}assets/js/jquery.datatables.tabletools.js"></script>
+	<script src="{{ urlFor('home') }}assets/js/datatables.js"></script>
+	
+	<script src="{{ urlFor('home') }}assets/js/jquery.chosen.min.js"></script>
+
+	<script src="{{ urlFor('home') }}assets/js/main.js"></script>
+
+	{% block footer_scripts %} {% endblock %}
+</body>
+</html>

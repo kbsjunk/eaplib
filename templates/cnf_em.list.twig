@@ -1,0 +1,31 @@
+{% extends 'layout.twig' %}
+{% block page_title %}eApplication Submission Texts{% endblock %}
+
+{% block content %}
+<h4>
+	eApplication Submission Texts
+</h4>
+<table class="table table-bordered table-condensed tablesorter">
+	{% set cols = getColumns('cnf_em') %}
+	{{ lists.theadsortable(cols) }}
+	<tbody>
+		{% for cnf_em in cnf_ems %}
+		<tr {% if app_req.inactive %} class="inactive"{% endif %}>
+			<td>
+				<a href="{{ urlFor('cnf_em', {cnf_em: cnf_em.eap_rspns_cd_ }) }}">{{ cnf_em.eap_rspns_cd }}</a>
+			</td>
+			<td>
+				{{ cnf_em.eap_rspns_descr_ }}
+			</td>
+			<td class="rec-tags">
+				{% for tag in cnf_em.tags_ %}
+				{{ truncTag(tag) }}
+				{% else %}
+				<span class="muted">(none)</span>
+				{% endfor %}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

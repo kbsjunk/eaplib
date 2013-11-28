@@ -1,0 +1,21 @@
+{% extends 'layout.twig' %}
+{% block page_title %}Tags{% endblock %}
+
+{% block content %}
+<h4>
+	Tags
+</h4>
+<table class="table table-bordered table-condensed tablesorter">
+	{% set cols = getColumns('tag') %}
+	{{ lists.theadsortable(cols) }}
+	<tbody>
+		{% for tag in tags %}
+		<tr {% if tag.inactive %} class="inactive"{% endif %}>
+			<td>
+				<a href="{{ urlFor('tag', {tag: tag.tag}) }}">{{ tag.tag|escape('html') }}</a>
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

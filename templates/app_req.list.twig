@@ -1,0 +1,38 @@
+{% extends 'layout.twig' %}
+{% block page_title %}Application Requirements{% endblock %}
+
+{% block content %}
+<h4>
+	Application Requirements
+</h4>
+<table class="table table-bordered table-condensed tablesorter">
+	{% set cols = getColumns('app_req') %}
+	{{ lists.theadsortable(cols) }}
+	<tbody>
+		{% for app_req in app_reqs %}
+		<tr {% if app_req.inactive %} class="inactive"{% endif %}>
+			<td>
+				<a href="{{ urlFor('app_req', {app_req: app_req.app_rqmnt_cd}) }}">{{ app_req.app_rqmnt_cd|escape('html') }}</a>
+			</td>
+			<td>
+				{{ app_req.app_rqmnt_descr_ }}
+				{% if app_req.parent_app_rqmnt_cd_ %} <span class="muted">(Nested)</span>{% endif %}
+			</td>
+			<td>
+				{% if app_req.doc_reqs_ %}Y{% else %}N{% endif %}
+			</td>
+			<td>
+				{{ app_req.inactive ? 'N' : 'Y' }}
+			</td>
+			<td class="rec-tags">
+				{% for tag in app_req.tags_ %}
+				{{ truncTag(tag) }}
+				{% else %}
+				<span class="muted">(none)</span>
+				{% endfor %}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

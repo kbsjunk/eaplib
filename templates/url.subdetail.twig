@@ -1,0 +1,40 @@
+{% if notajax %}
+<h5>
+	URLs and Email Addresses
+</h5>
+{% endif %}
+<table id="checked_urls" class="table table-bordered table-condensed">
+	<thead>
+		<tr>
+			<th>Address</th>
+			<th class="rec-fg">Status</th>
+			<th class="rec-cd">Last Checked</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for url in urls %}
+		<tr {% if url.error_ %} class="error"{% endif %}>
+			<td {% if url.email %} colspan="3"{% endif %}>
+				{{ url.url_|raw }}
+			</td>
+			{% if not url.email %}
+			<td>
+				<abbr title="{{ url.status_ }}">{{ url.status }}</abbr>{{ url.error_sign_|raw }}
+			</td>
+			<td>
+				{{ url.status_date_ }}
+			</td>
+			{% endif %}
+		</tr>
+		{% else %} 
+		<tr><td colspan="3"><span class="muted">Not checked. Click "Check URL Status" below.</span></td></tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% if notajax %}
+<form id="check_urls_form" action="{{ urlFor('check_urls', {rec_cd: rec_cd, rec_type:rec_type }) }}" method="post">
+	<p style="margin-top:10px;">
+		<button id="check_urls" type="button" class="btn btn-mini" data-loading-text="Checking...">Check URL Status</button>
+	</p>
+</form>
+{% endif %}

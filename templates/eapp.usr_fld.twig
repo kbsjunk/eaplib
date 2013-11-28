@@ -1,0 +1,17 @@
+<div class="app-req-rspn">
+	{% if app_req.default_number_responses > 1 or app_req.max_number_responses > 1 %}
+	<h4>
+		Answer <span class="rspn-ix">{{ i }}</span> <button class="eap-button rspn-del"> X </button>
+	</h4>
+	{% endif %}
+	<div id="{{ app_req.app_rqmnt_cd_ ~ '-' ~ i }}" class="app-req-fields">
+		{% for usr_fld in app_req.usr_flds_ %}
+		<div class="clearfix">
+			{{ usr_fld.label_|raw }}
+			{{ usr_fld.field_(i)|raw }}
+		</div>
+		{% endfor %}
+		<div id="{{ app_req.app_rqmnt_cd_ ~ '-' ~ i ~ '-sub_req' }}" class="sub-req"></div>
+	</div>
+</div>
+{#|e('html_attr')#}

@@ -1,0 +1,31 @@
+{% extends 'layout.twig' %}
+{% block page_title %}Standard Codes{% endblock %}
+
+{% block content %}
+<h4>
+	Standard Codes
+</h4>
+<table class="table table-bordered table-condensed tablesorter">
+	{% set cols = getColumns('std_cd') %}
+	{{ lists.theadsortable(cols) }}
+	<tbody>
+		{% for std_cd in std_cds %}
+		<tr {% if std_cd.inactive %} class="inactive"{% endif %}>
+			<td>
+				<a href="{{ urlFor('std_cd', {std_cd: std_cd.code_type}) }}">{{ std_cd.code_type }}</a>
+			</td>
+			<td>
+				{{ std_cd.code_type_descr }}
+			</td>
+			<td class="rec-tags">
+				{% for tag in std_cd.tags_ %}
+				{{ truncTag(tag) }}
+				{% else %}
+				<span class="muted">(none)</span>
+				{% endfor %}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

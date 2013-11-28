@@ -1,0 +1,108 @@
+{% extends 'layout.twig' %}
+{% block page_title %}Document Requirement{% endblock %}
+
+{% block sidebar %}
+<h4>Tags</h4>
+{% include 'tags.part.twig' with {
+rec_type: 'doc_req',
+rec_cd: doc_req.doc_rqmnt_cd,
+tags: doc_req.tags_,
+all_tags: all_tags
+} %}
+{% endblock %}
+
+{% block content %}
+<h4>
+	Document Requirement
+</h4>
+
+<article {% if doc_req.inactive %} class="inactive"{% endif %}>
+	<header>
+		<h2>
+			{{ doc_req.doc_rqmnt_descr_ }}
+			<small>{{ doc_req.doc_rqmnt_cd }}</small>
+		</h2>
+	</header>
+	
+	{% if app_req.inactive %}<p class="alert alert-danger">This document requirement is inactive and cannot be used.</p>{% endif %}
+	
+	<div class="accordion" id="accordion2">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+					eApplication Preview
+				</a>
+			</div>
+			<div id="collapseOne" class="accordion-body collapse in">
+				<div class="accordion-inner eapplication-wrapper">
+					<div class="eapplication">
+						{% include 'eapp.doc_req.twig' %}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+					Configuration Details
+				</a>
+			</div>
+			<div id="collapseTwo" class="accordion-body collapse">
+				<div class="accordion-inner">										
+					
+							<h5>
+								Instructions
+							</h5>
+							<div class="panel">
+								{{ doc_req.doc_rqmnt_full_descr_|raw }}
+							</div>
+						
+					
+					<!-- ---------------------------------------------------------- -->
+					
+					<h5>
+						Used by Application Requirements
+					</h5>
+					<table class="table table-bordered table-condensed">
+						<thead>
+							<tr>
+								<th class="rec-cd">Code</th>
+								<th>Title</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for app_req in doc_req.app_reqs_ %}
+							<tr {% if app_req.inactive %} class="inactive"{% endif %}>
+								<td><a href="{{ urlFor('app_req') }}{{ app_req.app_rqmnt_cd|e('url') }}">{{ app_req.app_rqmnt_cd }}</a></td>
+								<td>
+									{{ app_req.app_rqmnt_descr_ }}
+								</td>
+							</tr>
+							{% else %} 
+							<tr><td colspan="2">None found.</td></tr>
+							{% endfor %}
+						</tbody>
+					</table>
+					
+					
+					{% set urls = doc_req.urls_ %}
+					{% include 'url.subdetail.twig' with {
+					rec_type: 'doc_req',
+					rec_cd: doc_req.doc_rqmnt_cd,
+					notajax: true
+					} %}
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- ---------------------------------------------------------- -->
+	
+</article>
+<div class="pagination">
+	<ul>
+		<li><a href="{{ urlFor('doc_reqs') }}"><i class="icon-double-angle-left"></i> Document Requirements</a></li>
+	</ul>
+</div>
+{% endblock %}

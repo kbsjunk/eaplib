@@ -1,0 +1,40 @@
+<html>
+<head></head>
+<body>
+	<h1>eApplication Library</h1>
+
+	<h2>Minimum Hosting Requirements</h2>
+
+	<ul>
+		<li>PHP 5.4</li>
+		<li>MySQL database (could be migrated to another PDO-compatible database)</li>
+	</ul><h2>Setup Instructions</h2>
+
+	<ul>
+		<li>Download and install composer <a href="http://getcomposer.org/">http://getcomposer.org/</a>
+		</li>
+		<li>Run <code>composer install</code> in PHP cli to download vendor packages</li>
+		<li>Create a MySQL database named 'eaplib'</li>
+		<li>Run the SQL in <code>\app\eaplib-migrate.sql</code> to set up database</li>
+		<li>Set the database configuration details under the <code>Configure Idiorm</code> section in <code>\index.php</code>
+		</li>
+		<li>Copy the stored script from <code>\app\isis-stored-script.vbs</code> and run in ISIS</li>
+		<li>Run the PHP server and navigate to <code>\index.php</code>
+		</li>
+		<li>Download the generated XML file from ISIS 'My User Area' and upload through Maintenance\Import Data in the library</li>
+		<li>If password access is required, create an Apache <code>.htpasswd</code> file in root and uncomment first four lines of <code>.htaccess</code> file</li>
+	</ul><h2>Vendor Code Libraries Used (with Composer)</h2>
+
+	<ul>
+		<li>Slim PHP Framework (routing)</li>
+		<li>Idiorm and Paris (database object model)</li>
+		<li>Twig (templating language)</li>
+		<li>jQuery (JavaScript library)</li>
+		<li>Twitter Bootstrap (base styles)</li>
+		<li>PHPExcel (import CSV and XLS, XSLX)</li>
+		<li>PHPSQLFormat (PHP SQL formatting library)</li>
+		<li>ZeroClipboard (JavaScript clipboard library)</li>
+		<li>DataTables (JavaScript table sorting library)</li>
+	</ul>
+</body>
+</html>

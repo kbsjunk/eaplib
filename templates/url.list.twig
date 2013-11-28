@@ -1,0 +1,53 @@
+{% extends 'layout.twig' %}
+{% block page_title %}URLs and Email Addresses{% endblock %}
+
+{% block content %}
+<h4>
+	URLs
+</h4>
+<table id="checked_urls" class="table table-bordered table-condensed tablesorter">
+	{% set cols = getColumns('urls') %}
+	{{ lists.theadsortable(cols) }}
+	<tbody>
+		{% for url in urls if not url.email %}
+		<tr {% if url.error_ %} class="error"{% endif %}>
+			<td>
+				<small>{{ url.url_(false)|raw }}</small>
+			</td>
+			<td>
+				<a href="{{ urlFor(url.rec_type) ~ url.rec_cd }}">{{ url.rec_cd }}</a>
+			</td>
+			<td>
+				<abbr title="{{ url.status_ }}">{{ url.status }}</abbr>{{ url.error_sign_|raw }}
+			</td>
+			<td>
+				{{ url.status_date_ }}
+			</td>
+		</tr>
+		{% else %} 
+		<tr><td colspan="4"><span class="muted">None found.</span></td></tr>
+		{% endfor %}
+	</tbody>
+</table>
+<h4>
+	Email Addresses
+</h4>
+<table id="checked_urls" class="table table-bordered table-condensed tablesorter">
+	{% set cols = getColumns('emails') %}
+	{{ lists.theadsortable(cols) }}
+	<tbody>
+		{% for url in urls if url.email %}
+		<tr {% if url.error_ %} class="error"{% endif %}>
+			<td>
+				<small>{{ url.url_(false)|raw }}</small>
+			</td>
+			<td>
+				<a href="{{ urlFor(url.rec_type) ~ url.rec_cd }}">{{ url.rec_cd }}</a>
+			</td>
+		</tr>
+		{% else %} 
+		<tr><td colspan="2"><span class="muted">None found.</span></td></tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

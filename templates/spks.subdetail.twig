@@ -1,0 +1,26 @@
+<table class="table table-bordered table-condensed tablesorter">
+	{#{{ lists.theadsortable([{ title: 'Code' },{ title: 'Type', filter: 'dropdown' },{ title: 'Title' },{ title: 'Active', filter: 'dropdown' }]) }}#}
+	
+	{% set cols = getColumns('spk_cd') %}
+	{{ lists.theadsortable(cols, [ 'custom' ]) }}
+	
+	<tbody>
+		{% for spk_cd in spk_cds if spk_cd.inherit_inactive == inactives %}
+		
+		<tr {% if spk_cd.inactive %} class="inactive"{% endif %}>
+			<td>
+				<a href="{{ urlFor('spk_cd', {spk_cd: spk_cd.spk_cd, spk_ver: spk_cd.spk_ver_no}) }}">{{ spk_cd.spk_cd ~ '/' ~ spk_cd.spk_ver_no }}</a>
+			</td>
+			<td>
+				{{ spk_cd.spk_full_title }}
+			</td>
+			<td>
+				{{ spk_cd.spk_cat_type_cd }}
+			</td>
+			<td>
+				{{ spk_cd.inactive ? 'N' : 'Y' }}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>

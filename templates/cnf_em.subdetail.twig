@@ -1,0 +1,31 @@
+{% if cnf_ems %}
+<h5>
+	Confirmation Emails
+</h5>
+<table class="table table-bordered table-condensed">
+	{% set cols = getColumns('spk_cnf_em') %}
+	{{ lists.theadsortable(cols) }}
+	<tbody>						
+		{% for cnf_em in cnf_ems %}
+		<tr {% if cnf_em.inherit_inactive %} class="inactive"{% endif %}>
+			<td>
+				{% if cnf_em.inherit_ == 'inst' %}
+				<a href="{{ urlFor('inst') }}">Inst.</a>
+				{% elseif cnf_em.inherit_ == 'spk_cat' %}
+				<a href="{{ urlFor('spk_cat', {spk_cat: spk_cd.spk_cat_type_cd}) }}">{{ spk_cd.spk_cat_type_cd }}</a>
+				{% endif %}
+			</td>
+			<td>
+				<a href="{{ urlFor('cnf_em', {cnf_em: cnf_em.eap_rspns_cd}) }}">{{ cnf_em.eap_rspns_cd }}</a>
+			</td>
+			<td>
+				{{ cnf_em.eap_rspns_descr_ }}
+			</td>
+			<td>
+				{{ cnf_em.inherit_inactive ? 'N' : 'Y' }}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>					
+{% endif %}

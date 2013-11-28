@@ -1,0 +1,56 @@
+<div class="app-req">		
+	
+	<div class="doc-req">		
+		<h4 class="doc-req-header">
+			{{ doc_req.doc_rqmnt_descr_ }}
+		</h4>
+		
+		<p class="doc-req-descr">
+			{{ doc_req.doc_rqmnt_full_descr_|raw }}
+		</p>
+		
+		<div class="app-req-fields">
+			{% if doc_req.doc_no_prompt_fg == 'Y' %}
+			<div class="clearfix">
+				<label>{{ doc_req.doc_no_prompt_descr|default('Document Number') }}</label><div class="app-req-mandatory"><span title="Mandatory">*</span></div>
+				<input type="text" style="width:150px;">
+			</div>
+			{% endif %}
+			{% if doc_req.issue_dt_prompt_fg == 'Y' %}
+			<div class="clearfix">
+				<label>{{ doc_req.issue_dt_prompt_descr|default('Date of Issue') }}</label><div class="app-req-mandatory"><span title="Mandatory">*</span></div>
+				<input type="text" style="width:100px;">
+			</div>
+			{% endif %}
+			{% if doc_req.expy_dt_prompt_fg == 'Y' %}
+			<div class="clearfix">
+				<label>{{ doc_req.expy_dt_prompt_descr|default('Date of Expiry') }}</label><div class="app-req-mandatory"><span title="Mandatory">*</span></div>
+				<input type="text" style="width:100px;">
+			</div>
+			{% endif %}
+		</div>
+		
+		{% if app_req.doc_rqmnt_comp_fg == 'Y' %}
+		<span class="doc-req-mand">NOTE: This document requirement is a mandatory requirement and must be completed before you can submit your application.</span>
+		{% endif %}
+		
+		<fieldset>
+			<legend>
+				Document Attachments
+			</legend>
+			<a href="#">Cancel</a><br>
+			
+			
+			<div class="app-req-fields" style="margin-bottom:5px;">
+				<input type="text" disabled="disabled" style="margin-bottom:0;" /> <button>Browse&hellip;</button>
+				<a href="#">Add Another</a>
+			</div>
+			
+			<button>
+				Upload File(s)
+			</button>
+		</fieldset>
+		
+</div>
+
+</div>

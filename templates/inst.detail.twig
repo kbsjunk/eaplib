@@ -1,0 +1,147 @@
+{% extends 'layout.twig' %}
+{% block page_title %}Institution Configuration{% endblock %}
+
+{% block content %}
+<h4>
+	Institution
+</h4>
+
+<article>
+	<header>
+		<h2>University of Melbourne
+		</h2>
+	</header>	
+	{% set app_reqs = inst_app_reqs_ %}
+	{% set cnf_ems = inst_cnf_ems_ %}
+	
+	<div class="accordion" id="accordion2">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+					eApplication Preview
+				</a>
+			</div>
+			<div id="collapseOne" class="accordion-body collapse in">
+				<div class="accordion-inner eapplication-wrapper">
+					<div class="eapplication">
+						<h3>
+							Application Requirements
+						</h3>
+						{% for app_req_ in app_reqs if not app_req_.inactive %}
+						{% set app_req = app_req_.app_req_ %}
+						{% include 'eapp.app_req.twig' %}
+						{% else %}
+						<p class="muted">(None found.)</p>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+					Confirmation Email Preview
+				</a>
+			</div>
+			<div id="collapseThree" class="accordion-body collapse">
+				<div class="accordion-inner eapplication-wrapper email-wrapper">
+					<div class="email-body">
+						<p class="email-head">
+							<strong>Application Confirmation</strong><br>
+							University of Melbourne &lt;no-reply@unimelb.edu.au&gt;
+						</p>
+						{% for cnf_em_ in cnf_ems if not cnf_em_.inactive%}
+						{% set cnf_em = cnf_em_.cnf_em_ %}						
+						{% include 'eapp.cnf_em.twig' %}
+						{% else %}
+						<p class="muted">(None found.)</p>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+					Configuration Details
+				</a>
+			</div>
+			<div id="collapseTwo" class="accordion-body collapse">
+				<div class="accordion-inner">
+					<h5>
+						Application Requirements
+					</h5>
+					<table class="table table-bordered table-condensed">
+						<thead>
+							<tr>
+								<th class="rec-cd">Code</th>
+								<th>Title</th>
+								<th class="rec-fg">Docs</th>
+								<th class="rec-fg">Active</th>
+							</tr>
+						</thead>
+						<tbody>						
+							{% for app_req in app_reqs %}
+							<tr {% if app_req.inactive %} class="inactive"{% endif %}>
+								<td>
+									<a href="{{ urlFor('app_req', {app_req: app_req.app_rqmnt_cd}) }}">{{ app_req.app_rqmnt_cd }}</a>
+								</td>
+								<td>
+									{{ app_req.app_req_.app_rqmnt_descr_ }}
+								</td>
+								<td>
+									{{ app_req.app_req_.doc_reqs_ ? 'Y' : 'N' }}
+								</td>
+								<td>
+									{{ app_req.inactive ? 'N' : 'Y' }}
+								</td>
+							</tr>
+							{% else %} 
+							<tr><td colspan="4">None found.</td></tr>
+							{% endfor %}
+							
+						</tbody>
+					</table>		
+					<!-- xxxxx -->
+					
+					<h5>
+						Confirmation Emails
+					</h5>
+					<table class="table table-bordered table-condensed">
+						<thead>
+							<tr>
+								<th class="rec-cd">Code</th>
+								<th>Title</th>
+								<th class="rec-fg">Active</th>
+							</tr>
+						</thead>
+						<tbody>						
+							{% for cnf_em in cnf_ems %}
+							<tr {% if cnf_em.inactive %} class="inactive"{% endif %}>
+								<td>
+									<a href="{{ urlFor('cnf_em', {cnf_em: cnf_em.eap_rspns_cd}) }}">{{ cnf_em.eap_rspns_cd }}</a>
+								</td>
+								<td>
+									{{ cnf_em.cnf_em_.eap_rspns_descr_ }}
+								</td>
+								<td>
+									{{ cnf_em.inactive ? 'N' : 'Y' }}
+								</td>
+							</tr>
+							{% else %} 
+							<tr><td colspan="4">None found.</td></tr>
+							{% endfor %}
+							
+						</tbody>
+					</table>					
+				</div>
+			</div>
+		</div>
+	</div>
+</article>
+<div class="pagination">
+	<ul>
+		<li><a href="{{ urlFor('home') }}"><i class="icon-double-angle-left"></i> Home</a></li>
+	</ul>
+</div>
+{% endblock %}

@@ -1,0 +1,125 @@
+{% extends 'layout.twig' %}
+{% block page_title %}Standard Code{% endblock %}
+
+{% block sidebar %}
+<h4>Tags</h4>
+{% include 'tags.part.twig' with {
+rec_type: 'std_cd',
+rec_cd: std_cd.code_type,
+tags: std_cd.tags_,
+all_tags: all_tags
+} %}
+{% endblock %}
+
+{% block content %}
+<h4>
+	Standard Code
+</h4>
+
+<article {% if std_cd.inactive %} class="inactive"{% endif %}>
+	<header>
+		<h2>
+			{{ std_cd.code_type_descr }} 
+			<small>{{ std_cd.code_type }}</small>
+		</h2>
+	</header>
+	
+	{% if std_cd.inactive %}<p class="alert alert-danger">This standard code is inactive and cannot be used.</p>{% endif %}
+	{% if std_cd.maint_by_code == 'S' %}<p class="alert alert-danger">This standard code is system-maintained and cannot be modified.</p>{% endif %}
+	{% if std_cd.maint_by_code == 'B' %}<p class="alert alert-danger">Some of these standard code values are system-maintained and cannot be modified.</p>{% endif %}
+	
+	<div class="accordion" id="accordion2">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+					eApplication Preview
+				</a>
+			</div>
+			<div id="collapseOne" class="accordion-body collapse in">
+				<div class="accordion-inner eapplication-wrapper">
+					<div class="eapplication">
+						<div class="app-req-fields" style="margin: 20px 20px 10px;">
+							{{ std_cd.dropdown_|raw }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+					Configuration Details
+				</a>
+			</div>
+			<div id="collapseTwo" class="accordion-body collapse">
+				<div class="accordion-inner">
+					<!-- ---------------------------------------------------------- -->
+					<h5>
+						List of Values
+					</h5>
+					<table class="table table-bordered table-condensed">
+						<thead>
+							<tr>
+								<th>Code</th>
+								<th>Title</th>
+								<!--<th style="width:60px;">Editable</th>-->
+							</tr>
+						</thead>
+						<tbody>
+							{% for std_cd_val in std_cd.std_cd_vals_(false) %}
+							<tr {% if std_cd_val.inactive %} class="inactive"{% endif %}>
+								<td>
+									{{ std_cd_val.code_id }}
+								</td>
+								<td>
+									{{ std_cd_val.code_descr }}
+								</td>
+								<!--<td>
+{% if std_cd_val.maint_by_code != 'U' %}No{% endif %}
+</td>-->
+</tr>
+{% else %} 
+<tr><td colspan="2">None found.</td></tr>
+{% endfor %}
+</tbody>
+</table>
+
+<!-- ---------------------------------------------------------- -->
+
+<h5>
+	Used by Application Requirements
+</h5>
+<table class="table table-bordered table-condensed">
+	<thead>
+		<tr>
+			<th>Code</th>
+			<th>Title</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for app_req in std_cd.app_reqs_ %}
+		<tr {% if app_req.inactive %} class="inactive"{% endif %}>
+			<td><a href="{{ urlFor('app_req') }}{{ app_req.app_rqmnt_cd|e('url') }}">{{ app_req.app_rqmnt_cd }}</a></td>
+			<td>
+				{{ app_req.app_rqmnt_descr_ }}
+			</td>
+		</tr>
+		{% else %} 
+		<tr><td colspan="2">None found.</td></tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+<!-- ---------------------------------------------------------- -->
+</div>
+</div>
+</div>
+</div>
+</article>
+
+<div class="pagination">
+	<ul>
+		<li><a href="{{ urlFor('std_cds') }}"><i class="icon-double-angle-left"></i> Standard Codes</a></li>
+	</ul>
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% if dsp_crts %}
+<button class="btn btn-link btn-table has-popover" data-placement="right" title="Display Criteria"><i class="icon-eye-close"></i></button>
+<div class="popover-content">
+	<table class="table table-bordered table-condensed" style="font-size:0.8em;">
+		<thead>
+			<tr>
+				<th colspan="2">Criterion</th>
+				<th>Value</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for dsp_crt in dsp_crts %}
+			<tr>
+				<td>
+					{{ dsp_crt.crit_name }}
+				</td>
+				<td>
+					{{ dsp_crt.crit_op_ }}
+				</td>
+				<td>
+					{% if dsp_crt.crit_value %}
+					{{ dsp_crt.crit_value }}
+					{% else %}
+					{{ dsp_crt.crit_code }}
+					{% endif %}
+				</td>
+			</tr>
+			{% else %} 
+			<tr><td colspan="3">None found.</td></tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endif %}

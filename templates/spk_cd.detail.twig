@@ -1,0 +1,90 @@
+{% extends 'layout.twig' %}
+{% block page_title %}Course Configuration{% endblock %}
+
+{% block content %}
+<h4>
+	Study Package
+</h4>
+
+<article {% if spk_cd.inactive %} class="inactive"{% endif %}>
+	<header>
+		<h2>{{ spk_cd.spk_full_title }} 
+			<small>{{ spk_cd.spk_cd ~ '/' ~ spk_cd.spk_ver_no }}</small>
+		</h2>
+	</header>
+
+	{% if spk_cd.spk_stage_cd != 'AC' %}
+	{% set active_ver = spk_cd.active_ver %}
+	<p class="alert alert-danger">This study package is not the active version. The active version is <a href="{{ urlFor('spk_cd') ~ active_ver.spk_id }}">{{ active_ver.spk_id }}</a>.</p>
+	{% endif %}
+	
+	
+	{% set app_reqs = spk_cd.app_reqs_ %}
+	{% set cnf_ems = spk_cd.cnf_ems_ %}
+	
+	<div class="accordion" id="accordion2">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+					eApplication Preview
+				</a>
+			</div>
+			<div id="collapseOne" class="accordion-body collapse in">
+				<div class="accordion-inner eapplication-wrapper">
+					<div class="eapplication">
+						<h3>
+							Application Requirements
+						</h3>
+						{% for app_req in app_reqs %}
+						{% if not app_req.inherit_inactive %}
+						{% include 'eapp.app_req.twig' %}
+						{% endif %}
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+					Confirmation Email Preview
+				</a>
+			</div>
+			<div id="collapseThree" class="accordion-body collapse">
+				<div class="accordion-inner eapplication-wrapper email-wrapper">
+					<div class="email-body">
+						<p class="email-head">
+							<strong>Application Confirmation</strong><br>
+							University of Melbourne &lt;no-reply@unimelb.edu.au&gt;
+						</p>
+						{% for cnf_em in cnf_ems if not cnf_em.inherit_inactive %}
+						{% include 'eapp.cnf_em.twig' %}
+						{% else %}
+						<p class="muted">(None found.)</p>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+					Configuration Details
+				</a>
+			</div>
+			<div id="collapseTwo" class="accordion-body collapse">
+				<div class="accordion-inner">
+					{% include 'app_req.subdetail.twig' %}
+					
+					{% include 'cnf_em.subdetail.twig' %}
+				</div>
+			</div>
+		</div>
+	</div>
+</article>
+<div class="pagination">
+	<ul>
+		<li><a href="{{ urlFor('spk_cds') }}"><i class="icon-double-angle-left"></i> Study Packages</a></li>
+	</ul>
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'layout.twig' %}
+{% block page_title %}Course Configuration{% endblock %}
+
+{% block content %}
+<h4>
+	Study Packages
+</h4>
+<table class="table table-bordered table-condensed tablesorter">
+	<!--{{ lists.theadsortable([{ title: 'Code' },{ title: 'Type', filter: 'dropdown' },{ title: 'Title' },{ title: 'Self Apply', filter: 'dropdown' }]) }}-->
+	{% set cols = getColumns('spk_cd') %}
+	{{ lists.theadsortable(cols) }}
+	<tbody>
+		{% for spk_cd in spk_cds %}
+		{% set customised = false %}
+		{% set spk_vers = spk_cd.spk_vers_ %}
+		<tr {% if spk_cd.inactive %} class="inactive"{% endif %}>
+			<td>
+				<a href="{{ urlFor('spk_cd', {spk_cd: spk_cd.spk_cd}) }}">{{ spk_cd.spk_cd }}</a>
+				{% if spk_vers|length > 1 %}				
+				<button class="btn btn-link btn-table has-popover" data-placement="right" title="Versions"><i class="icon-expand-alt"></i></button>
+				<div class="popover-content">
+					<ul class="unstyled">
+						{% for spk_ver in spk_vers %}
+						<li>
+							<a href="{{ urlFor('spk_cd', {spk_cd: spk_cd.spk_cd, spk_ver: spk_ver.spk_ver_no}) }}">{{ spk_cd.spk_cd ~ '/' ~ spk_ver.spk_ver_no }}</a>
+							{% if spk_ver.customised_ > 0 and loop.index == 1 %}
+							(Customised)
+							{% set customised = true %}
+							{% else %}
+							(Standard)
+							{% endif %}
+						</li>
+						{% endfor %}
+					</ul>
+				</div>
+				{% else %}
+				{% if spk_vers[0].customised_ %}
+				{% set customised = true %}
+				{% endif %}
+				{% endif %}
+			</td>
+			<td>
+				{{ spk_cd.spk_full_title }}
+			</td>
+			<td>
+				<a href="{{ urlFor('spk_cat', {spk_cat: spk_cd.spk_cat_type_cd} )  }}">{{ spk_cd.spk_cat_type_cd }}</a>
+			</td>
+			<td>
+				{{ customised ? 'Customised' : 'Standard' }}
+			</td>
+			<td>
+				{{ spk_cd.inactive ? 'N' : 'Y' }}
+			</td>
+		</tr>		
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

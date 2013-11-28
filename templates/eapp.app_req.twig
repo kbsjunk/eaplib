@@ -1,0 +1,67 @@
+<div id="{{ app_req.app_rqmnt_cd_ }}" class="app-req">						
+	{% set dsp_crts = app_req.dsp_crts_ %}
+	{% include 'eap.dsp_crt.twig' %}
+	<h4 class="app-req-header">
+		Requirement - {{ app_req.app_rqmnt_descr_ }}
+	</h4>
+	<div class="app-req-descr">
+		{{ app_req.app_rqmnt_full_descr_|raw }}
+	</div>
+	
+	{% if app_req.resp_prompt_fg == 'Y' %}
+	{% for i in 1..app_req.default_number_responses|default(1) %}
+		{% include 'eapp.usr_fld.twig' %}
+	{% endfor %}
+	<div id="{{ app_req.app_rqmnt_cd_ ~ '-rspns-more' }}" class="rspns-more"></div>	
+	
+		{% if app_req.max_number_responses > 1 %}
+		<button class="btn btn-link btn-table has-popover" data-placement="right" title="Responses"><i class="icon-cog"></i></button>
+		<div class="popover-content">
+			<table class="table table-bordered table-condensed" style="font-size:0.8em;">
+				<tbody>
+					<tr>
+						<th style="width:80px;">Required</th>
+						<td style="width:30px;">{{ app_req.required_number_responses }}</td>
+					</tr>
+					<tr>
+						<th>Default</th>
+						<td>{{ app_req.default_number_responses }}</td>
+					</tr>
+					<tr>
+						<th>Maximum</th>
+						<td>{{ app_req.max_number_responses }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<button class="eap-button rspn-add" data-app-req="{{ app_req.app_rqmnt_cd_ }}">
+			Add answer
+		</button>
+		<span class="eap-small-text"> to '{{ app_req.app_rqmnt_descr_ }}'</span>
+		{% endif %}
+		
+	
+	{% endif %}
+	
+	{% if app_req.doc_reqs_ %}
+	<h4>
+		Supporting Documentation
+	</h4>
+	<p>
+		{% if app_req.doc_rqmnt_comp_fg == 'Y' %}
+		You need to provide all documents listed below.
+		{% elseif app_req.doc_rqmnt_comp_fg == 'O' %}
+		You need to provide at least one document listed below.
+		{% else %}
+		You may provide any document listed below.
+		{% endif %}
+	</p>
+	
+	{% for doc_req in app_req.doc_reqs_ %}
+	{% include 'eapp.doc_req.twig' %}
+	{% endfor %}
+	
+	{% endif %}
+	
+</div>

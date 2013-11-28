@@ -1,0 +1,67 @@
+{% extends 'layout.twig' %}
+{% block page_title %}SQL Query{% endblock %}
+
+{% block footer_scripts %}
+<script src="/assets/js/ZeroClipboard.min.js"></script>
+<script src="/assets/js/clipboard.js"></script>
+{% endblock %}
+
+{% block content %}
+<h4>
+	SQL Query
+</h4>
+
+<article>
+	<header>
+		<h2>{{ sql_query.descr }} <small>{{ sql_query.output_file }}</small></h2>
+	</header>
+	
+	<!-- ---------------------------------------------------------- -->
+
+	<div class="accordion" id="accordion2">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+					SQL Query
+				</a>
+			</div>
+			<div id="collapseOne" class="accordion-body collapse in">
+				<div class="accordion-inner tab-pre">
+					<div class="pagination pull-right" style="margin-bottom:0;margin-top:0;">
+						<ul>
+							<li><a id="clipboard" data-clipboard-target="sql_text" href="#" title="Copy to clipboard"><i class="icon-copy"></i></a></li>
+						</ul>
+					</div>
+					<p>
+						Run the following query in ISIS to extract the data in the required format:
+					</p>
+					
+						<div class="pre input-block-level">
+							{{- sql_query.query_(false)|raw -}}
+						</div>
+					
+
+					<div class="tabbable tabs-below replace-href">
+						<ul class="nav nav-tabs">
+							{% for env in sql_query.s1envs %}
+							<li {% if sql_query.s1env == env %} class="active"{% endif %}><a href="?s1env={{ env }}">{{ env }}</a></li>
+							{% endfor %}
+							<li {% if not sql_query.s1env %} class="active"{% endif %}><a href="?s1env=none">No Environment</a></li>
+						</ul>
+					</div>
+					<textarea id="sql_text" style="display:none;">{{- sql_query.query_|raw|striptags -}}</textarea>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- ---------------------------------------------------------- -->
+	
+</article>
+
+<div class="pagination">
+	<ul>
+		<li><a href="{{ urlFor('sql_queries') }}"><i class="icon-double-angle-left"></i> SQL Queries</a></li>
+	</ul>
+</div>
+{% endblock %}

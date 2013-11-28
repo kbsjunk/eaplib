@@ -1,0 +1,103 @@
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container">
+			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</a>
+			<a class="brand" href="{{ urlFor('home') }}">eApplication Library</a>
+			<div class="nav-collapse collapse">
+				<ul class="nav">
+					<li {{ urlActive('') }}><a href="{{ urlFor('home') }}">Home</a></li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle {{ urlActive(['app_reqs','doc_reqs','cnf_ems','std_cds'], false) }}" data-toggle="dropdown">
+							Reference Data
+							<b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu">
+							<li {{ urlActive('app_reqs') }}>
+								<a href="{{ urlFor('app_reqs') }}">Application Requirements
+								</a>
+							</li>
+							<li {{ urlActive('doc_reqs') }}>
+								<a href="{{ urlFor('doc_reqs') }}">Document Requirements
+								</a>
+							</li>
+							<li {{ urlActive('cnf_ems') }}>
+								<a href="{{ urlFor('cnf_ems') }}">Confirmation Emails
+									<span class="nav-subtitle">eApplication Submission Texts</span>
+								</a>
+							</li>
+							<li {{ urlActive('std_cds') }}>
+								<a href="{{ urlFor('std_cds') }}">Dropdown Lists
+									<span class="nav-subtitle">Standard Codes</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle {{ urlActive(['inst','spk_cats','spk_cds'], false) }}" data-toggle="dropdown">
+							Configuration
+							<b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu">
+							<li {{ urlActive('inst') }}>
+								<a href="{{ urlFor('inst') }}">Institution Configuration
+								</a>
+							</li>
+							<li {{ urlActive('spk_cats') }}>
+								<a href="{{ urlFor('spk_cats') }}">Course Type Configuration
+									<span class="nav-subtitle">Study Package Category Types</span>
+								</a>
+							</li>
+							<li {{ urlActive('spk_cds') }}>
+								<a href="{{ urlFor('spk_cds') }}">Course Configuration
+									<span class="nav-subtitle">Study Packages</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+					
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle {{ urlActive(['tags','urls'], false) }}" data-toggle="dropdown">
+							Utilities
+							<b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu">
+							<li {{ urlActive('tags') }}><a href="{{ urlFor('tags') }}">Tags</a></li>
+							<li {{ urlActive('urls') }}><a href="{{ urlFor('urls') }}">URLs and Email Addresses</a></li>
+
+						</ul>
+					</li>
+					
+					
+					
+				</ul>
+				<ul class="nav pull-right">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle {{ urlActive(['sql_queries','import'], false) }}" data-toggle="dropdown">
+							Maintenance
+							<b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu">
+							<li {{ urlActive(['sql_queries', 'sql_query']) }}>
+								<a href="{{ urlFor('sql_queries') }}">SQL Queries</a>
+							</li>
+							<li {{ urlActive('export') }}>
+								<a href="{{ urlFor('export') }}">ISIS Export Script</a>
+							</li>
+							<li {{ urlActive('import') }}>
+								<a href="{{ urlFor('import') }}">Import Data</a>
+							</li>
+							<li {{ urlActive('import_log') }}>
+								<a href="{{ urlFor('import_logs') }}">Import Logs</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	{% include 'ajaxload.twig' %}
+</div>
